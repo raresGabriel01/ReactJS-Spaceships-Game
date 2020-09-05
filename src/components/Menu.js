@@ -1,6 +1,6 @@
 import React from 'react'
 import Background from './Background.js'
-
+import './Menu.css'
 class Menu extends React.Component {
 	render() {
 		return (
@@ -8,7 +8,7 @@ class Menu extends React.Component {
 				<Background/>
 				<div id = 'menu'>
           			<h1 id = 'title'> Space Invaders </h1>
-          			<button> Play </button>
+          			<button onClick = {this.props.click}> Play </button>
         		</div>
         	</div>
 		)

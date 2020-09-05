@@ -1,0 +1,7 @@
+img#spaceship {
+	width:200px;
+	position:fixed;
+	bottom:0;
+	transform:translate(-50%);
+	transition:200ms left ease-out;
+}

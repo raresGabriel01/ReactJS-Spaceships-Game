@@ -1,5 +1,6 @@
-import React from "react";
-
+import React from "react"
+import BackgroundVideo from '../img/background.mp4'
+import './Background.css'
 class Background extends React.Component {
 
 
@@ -7,7 +8,7 @@ class Background extends React.Component {
 		return (
 			
 			<video autoPlay muted loop id = 'background' >
-				<source src="/img/background.mp4" type="video/mp4" />
+				<source src= {`${BackgroundVideo}`} type='video/mp4' />
 			</video>
 		)
 	}

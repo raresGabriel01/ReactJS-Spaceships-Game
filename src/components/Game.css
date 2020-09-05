@@ -1,0 +1,21 @@
+div#gameSurface {
+	background-size:cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+div#cover {
+	width:100%;
+	height:100%;
+	background-color:black;
+	position:absolute;
+	z-index:1;
+	animation-name:loaded;
+	animation-duration:2s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes loaded {
+	from {opacity:100;}
+	to{opacity:0;}
+}
