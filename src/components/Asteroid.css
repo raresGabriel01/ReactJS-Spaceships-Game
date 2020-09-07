@@ -1,0 +1,14 @@
+img.asteroid {
+	width:100px;
+	position:absolute;
+
+}
+
+@keyframes cadere {
+	from {
+		top:-20%;
+	}
+	to {
+		top:100%;
+	}
+}
