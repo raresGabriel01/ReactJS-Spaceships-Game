@@ -4,62 +4,81 @@ import Space from '../img/space.jpg'
 import './Game.css'
 import Spaceship from './Spaceship.js'
 import Asteroid from './Asteroid.js'
+import SpaceshipContext from './SpaceshipContext.js'
 
 class Game extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			asteroidCoord: [],
-			totalAsteroids: 0,
+			asteroids:[], // {x, y, ref, key}
+			index:0,
 			spaceshipReference:null
 		}
 	}
 	render() {
-		let coords = this.state.asteroidCoord
-		let asteroids = coords.map(coord => <Asteroid x = {coord[0]}
-													  y = {coord[1]} 
-													  key = {coord[2]} 
-													  id = {coord[2]} 
-													  fell = {this.handleFell} 
-													  spaceship = {this.state.spaceshipReference}
-													  crash = {this.crash}/>)
+		let asteroidComponents = this.state.asteroids.map(asteroid => <Asteroid ref = {asteroid.ref} 
+																				x = {asteroid.x} 
+																				y = {asteroid.y}
+																				key = {asteroid.key}
+																				id = {asteroid.key}
+																				remove = {this.remove}/>)
 		return (
 			<div id = 'gameSurface' style = {{backgroundImage:`url(${Space})`}}>
 				<div id ='cover'></div>
 				<Spaceship/>
-				{asteroids}
+				<SpaceshipContext.Provider value ={{spaceship:this.state.spaceshipReference, color:'green'}}>
+					{asteroidComponents}
+				</SpaceshipContext.Provider>
 			</div>
 		)
 	}
-	
+
 	componentDidMount() {
-		console.log('test')
-		this.setState({spaceshipReference:document.getElementById('spaceship')})
-		this.generateAsteroids()	
-	}
 
-	generateAsteroids = () => {
-		let timer = setInterval(() => {
-			let x = Math.random() * 100
+		this.setState({spaceshipReference: document.getElementById('spaceship')})
+
+
+
+		let timer = 0
+		setInterval(() => {
+	
 			this.setState(prevState => {
-				let ast  = prevState.asteroidCoord.map(coords => [coords[0]+1, coords[1], coords[2]])
-				ast.push([x,-20,prevState.totalAsteroids + 1])
-				return {asteroidCoord:ast, totalAsteroids: prevState.totalAsteroids + 1}
+				for(let asteroid of prevState.asteroids) {
+					asteroid.ref.current.fall()
+				}
+				if(timer == 0) {
+					let x =Math.floor( Math.random() * 100 )
+					prevState.asteroids.push({
+						x:x,
+						y:-20,
+						ref:React.createRef(),
+						key:(++prevState.index)
+					})
+					
+				}
+
+				return {
+					asteroids: prevState.asteroids,
+					index: prevState.index
+				}
+				
 			})
-		}, 1000)
+			timer = (timer + 10) % 200
+			if(this.state.asteroids[0]) {
+				if(this.state.asteroids[0].ref.current.state.y > 100)
+					this.remove()
+			}
+			
+		},30)
 	}
-
-	handleFell = () => {
+	
+	remove = () => {
 		this.setState(prevState => {
-			let ast = prevState.asteroidCoord
-			ast.shift()
-			return {asteroidCoord:ast}
+			prevState.asteroids.shift()
+			return {
+				asteroids:prevState.asteroids
+			}
 		})
-	}
-
-	crash = () => {
-		
-		console.log('CRAAAAAASH')
 	}
 }
 

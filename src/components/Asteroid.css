@@ -1,14 +1,21 @@
 img.asteroid {
 	width:100px;
 	position:absolute;
-
+	animation-name:rotire;
+	animation-iteration-count:infinite;
+	animation-duration:3.5s;
+	animation-timing-function: linear;
+	
 }
 
-@keyframes cadere {
-	from {
-		top:-20%;
+@keyframes rotire {
+	0% {
+		transform:rotate(0deg);
 	}
-	to {
-		top:100%;
+	50% {
+		transform:rotate(180deg);
+	}
+	100% {
+		transform: rotate(360deg)
 	}
 }
